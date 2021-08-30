@@ -1,19 +1,19 @@
 package com.sahaya.sahayaservices.entity;
 
 import com.sahaya.sahayaservices.enums.EmployeeType;
+import org.springframework.lang.NonNull;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "EMPLOYEE")
 public class Employee {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private Long id;
 
+    @NonNull
     @Column(name = "NAME")
     private String name;
 
