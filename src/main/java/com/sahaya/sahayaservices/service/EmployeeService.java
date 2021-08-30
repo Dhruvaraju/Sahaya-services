@@ -1,4 +1,4 @@
-package com.sahaya.sahayaservices;
+package com.sahaya.sahayaservices.service;
 
 import com.sahaya.sahayaservices.entity.Employee;
 import com.sahaya.sahayaservices.models.AuthenticationRequest;
@@ -15,8 +15,16 @@ public class EmployeeService {
         this.employeeRepo = employeeRepo;
     }
 
-    public Employee addEmployee(Employee user) {
-        return employeeRepo.save(user);
+    public Employee addEmployee(Employee user) throws Exception {
+        Employee loEmployee = employeeRepo.findEmployeeByContactNoAndEmail(user.getContactNo(), user.getEmail());
+        if (null == loEmployee){
+            return employeeRepo.save(user);
+        }
+        else
+        {
+            throw new Exception("user exists");
+        }
+
     }
 
     public AuthenticationResponse authenticateUser(AuthenticationRequest authRequest) {

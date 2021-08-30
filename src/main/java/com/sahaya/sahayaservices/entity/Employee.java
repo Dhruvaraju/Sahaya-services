@@ -13,7 +13,7 @@ public class Employee {
     @Column(name = "ID")
     private Long id;
 
-    @NonNull
+
     @Column(name = "NAME")
     private String name;
 
@@ -28,6 +28,9 @@ public class Employee {
 
     @Column(name = "CONTACTNO")
     private Long contactNo;
+
+    @Column(name = "EMAIL")
+    private String email;
 
     @Column(name = "SECRETQN1")
     private String secretQn1;
@@ -44,13 +47,14 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(Long id, String name, String password, Long employeeId, EmployeeType employeeType, Long contactNo, String secretQn1, String secretAn1, String secretQn2, String secretAn2) {
+    public Employee(Long id, String name, String password, Long employeeId, EmployeeType employeeType, Long contactNo, String email, String secretQn1, String secretAn1, String secretQn2, String secretAn2) {
         this.id = id;
         this.name = name;
         this.password = password;
         this.employeeId = employeeId;
         this.employeeType = employeeType;
         this.contactNo = contactNo;
+        this.email = email;
         this.secretQn1 = secretQn1;
         this.secretAn1 = secretAn1;
         this.secretQn2 = secretQn2;
@@ -65,11 +69,12 @@ public class Employee {
         this.id = id;
     }
 
+
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName( String name) {
         this.name = name;
     }
 
@@ -103,6 +108,14 @@ public class Employee {
 
     public void setContactNo(Long contactNo) {
         this.contactNo = contactNo;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getSecretQn1() {

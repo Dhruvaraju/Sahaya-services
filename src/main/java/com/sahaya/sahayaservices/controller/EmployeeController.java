@@ -1,10 +1,9 @@
 package com.sahaya.sahayaservices.controller;
 
-import com.sahaya.sahayaservices.EmployeeService;
+import com.sahaya.sahayaservices.service.EmployeeService;
 import com.sahaya.sahayaservices.entity.Employee;
 import com.sahaya.sahayaservices.models.AuthenticationRequest;
 import com.sahaya.sahayaservices.models.AuthenticationResponse;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,7 +16,7 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public Employee registerEmployee(@RequestBody Employee employee) {
+    public Employee registerEmployee(@RequestBody Employee employee) throws Exception {
         return employeeService.addEmployee(employee);
 
     }
