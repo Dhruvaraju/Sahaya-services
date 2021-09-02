@@ -39,4 +39,9 @@ public class EmployeeController {
         return employeeService.fetchSecretQnA((userEmpId));
     }
 
+    @RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
+    public CommonResponse resetPassword(@RequestBody AuthenticationRequest userPassword) throws Exception {
+        return employeeService.updatePassword((userPassword));
+    }
+
 }

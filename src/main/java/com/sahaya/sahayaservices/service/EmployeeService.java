@@ -7,6 +7,7 @@ import com.sahaya.sahayaservices.models.AuthenticationResponse;
 import com.sahaya.sahayaservices.models.CommonResponse;
 import com.sahaya.sahayaservices.models.EmployeeAdditionalDetails;
 import com.sahaya.sahayaservices.repository.EmployeeRepository;
+import org.hibernate.annotations.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -67,9 +68,9 @@ public class EmployeeService {
         public CommonResponse fetchEmployeeId (Employee user) throws Exception {
             Employee loEmployee = employeeRepo.findEmployeeByEmail(user.getEmail());
             if (null != loEmployee) {
-                return new CommonResponse("FOUND", loEmployee.getEmployeeId().toString());
+                return new CommonResponse(Status.FOUND, loEmployee.getEmployeeId().toString());
             } else {
-                return new CommonResponse("NOTFOUND", "User Unavailable");
+                return new CommonResponse(Status.NOTFOUND, "User Unavailable");
             }
     }
 
@@ -83,5 +84,16 @@ public class EmployeeService {
         }
     }
 
-
+    public CommonResponse updatePassword (AuthenticationRequest authRequest) throws Exception{
+        Employee loEmployee = employeeRepo.findEmployeeByEmployeeId((Long.parseLong(authRequest.getUserName())));
+        if (null != loEmployee) {
+            loEmployee.setPassword(authRequest.getPassword());
+            employeeRepo.save(loEmployee);
+            return new CommonResponse(Status.UPDATED,"Password reset successfully");
+        }
+        else
+        {
+            return new CommonResponse(Status.NOTFOUND,"User not found");
+        }
+    }
 }

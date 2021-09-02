@@ -1,22 +1,24 @@
 package com.sahaya.sahayaservices.models;
 
+import com.sahaya.sahayaservices.enums.Status;
+
 public class CommonResponse {
-    private String Status;
+    private Status Status;
     private String Message;
 
     public CommonResponse() {
     }
 
-    public CommonResponse(String status, String message) {
+    public CommonResponse(com.sahaya.sahayaservices.enums.Status status, String message) {
         Status = status;
         Message = message;
     }
 
-    public String getStatus() {
+    public com.sahaya.sahayaservices.enums.Status getStatus() {
         return Status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(com.sahaya.sahayaservices.enums.Status status) {
         Status = status;
     }
 
