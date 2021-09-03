@@ -1,5 +1,7 @@
 package com.sahaya.sahayaservices.models;
 
+import com.sun.istack.NotNull;
+
 public class AuthenticationRequest {
     private String userName;
     private String password;
