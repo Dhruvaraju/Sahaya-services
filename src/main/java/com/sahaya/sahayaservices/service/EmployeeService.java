@@ -33,28 +33,6 @@ public class EmployeeService {
 
     }
 
-//    public CommonResponse addEmployee(Employee user) {
-//        if(null != user.getEmail()){
-//            Employee availableEmp = employeeRepo.findEmployeeByEmail(user.getEmail());
-//            if(null != availableEmp){
-//                return new CommonResponse(Status.EXISTS.toString(), "Employee already exists");
-//            } else {
-//                Employee loEmp = null;
-//                long generatedEmpId = 0;
-//                while (null == loEmp){
-//                    generatedEmpId = (long) Math.random();
-//                    loEmp = employeeRepo.findEmployeeByEmployeeId(generatedEmpId);
-//                }
-//                user.setEmployeeId(generatedEmpId);
-//                employeeRepo.save(user);
-//                return null;
-//            }
-//        } else {
-//            return null;
-//        }
-//    }
-
-
     public AuthenticationResponse authenticateUser(AuthenticationRequest authRequest) {
         Employee loEmployee = employeeRepo.findEmployeeByEmployeeIdAndPassword((Long.parseLong(authRequest.getUserName())), authRequest.getPassword());
         if (null != loEmployee) {
@@ -63,7 +41,6 @@ public class EmployeeService {
             return new AuthenticationResponse(null, null, false, null);
         }
     }
-
 
         public CommonResponse fetchEmployeeId (Employee user) throws Exception {
             Employee loEmployee = employeeRepo.findEmployeeByEmail(user.getEmail());

@@ -22,7 +22,6 @@ public class Employee {
     @Column(name = "EMPLOYEEID")
     private Long employeeId;
 
-
     @Column(name = "EMPLOYEETYPE")
     private EmployeeType employeeType;
 
