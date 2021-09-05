@@ -33,8 +33,8 @@ public class TicketController {
     }
 
 //    @RequestMapping(value = "/{userName}",method = RequestMethod.GET)
-//    public List<Ticket> getListOfUserTicket(@PathVariable String userName){
-//        return (List<Ticket>) ticketService.getTicketByUserName(userName);
+//    public List<TicketResponse> getListOfUserTicket(@PathVariable String userName){
+//        return ticketService.getTicketByUserName(userName);
 //    }
 //
 //    @RequestMapping(value = "/open",method = RequestMethod.GET)

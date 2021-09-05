@@ -16,6 +16,7 @@ import java.util.UUID;
 @Service
 public class TicketService {
     private final TicketRepository ticketRepo;
+    private Object Ticket;
 
     public TicketService(TicketRepository ticketRepo) {
         this.ticketRepo = ticketRepo;
@@ -62,9 +63,24 @@ public class TicketService {
         return openTickets;
     }
 
-//    public List<Ticket> getTicketByUserName (String username) {
-//        List<Ticket> openUserTicket = (List<Ticket>) ticketRepo.findTicketByUserName(username);
-//        return openUserTicket;
+//    public List<TicketResponse> getTicketByUserName (Ticket tckt, String username) {
+////        List<Ticket> UserTicket = (List<Ticket>) ticketRepo.findTicketByUserName(username);
+//        List<Ticket> ticketList = ticketRepo.findTicketByUserName(username);
+//
+//        List<TicketResponse> ticketResponseList = new ArrayList<>();
+//        if (null != ticketList) {
+//            for (Ticket i : ticketList) {
+//                Ticket loTicket =
+////                ticketResponseList.add(ticketList);
+////            System.out.println("trial "+ticketResponseList);
+//            }
+//            return ticketResponseList;
+//        }
+//        else {
+//            return null;
+//        }
+////        List<TicketResponse> fetchListOfUserTicket = List<Ticket> tckt;
+////        return fetchListOfUserTicket;
 //    }
 
 //    public List<Ticket> fetchAllOpenIpos(){
