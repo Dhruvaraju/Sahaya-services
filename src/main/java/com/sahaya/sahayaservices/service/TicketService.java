@@ -22,89 +22,46 @@ public class TicketService {
     }
 
     public CommonResponse addTicket(PrimeRequest primeRequest) {
-        Ticket loticket = new Ticket(null, null, null, null, null, null, null, null, null, null, null);
-        loticket.setUserName(primeRequest.getUserName());
-        loticket.setEmployeeId(null);
-        loticket.setDescription(primeRequest.getDescription());
-        loticket.setEmployeeName(null);
-        loticket.setIssue(primeRequest.getIssue());
-        loticket.setRegisteredDate(LocalDate.now());
-        loticket.setTicketStatus(TicketStatus.NEW);
-        loticket.setSeverity(TicketSeverity.LOW);
-        loticket.setMessageToUser(null);
-        Ticket updatedTicket = ticketRepo.save(loticket);
-        updatedTicket.setTicketId(100000 + loticket.getId());
+        Ticket loTicket = new Ticket(null, primeRequest.getUserName(), null, null, LocalDate.now(), primeRequest.getIssue(), primeRequest.getDescription(), TicketSeverity.LOW, TicketStatus.NEW, null, null);
+        Ticket updatedTicket = ticketRepo.save(loTicket);
+        updatedTicket.setTicketId(100000 + loTicket.getId());
         ticketRepo.save(updatedTicket);
         return new CommonResponse(Status.ADDED, updatedTicket.getTicketId().toString());
     }
 
 
-
-    public CommonResponse updateTicketRequest(TicketRequest updateTicket) {
+    public CommonResponse updateTicket(TicketRequest updateTicket) {
         Ticket loTicket = ticketRepo.findTicketByTicketId(updateTicket.getTicketId());
         if (null != loTicket) {
-            loTicket.setEmployeeId(updateTicket.getEmployeeId());
-            loTicket.setTicketId(updateTicket.getTicketId());
-            loTicket.setEmployeeName(updateTicket.getEmployeeName());
-            loTicket.setTicketStatus(updateTicket.getTicketStatus());
-            loTicket.setSeverity(updateTicket.getTicketSeverity());
-            loTicket.setMessageToUser(updateTicket.getMessageToUser());
+            if (null != updateTicket.getEmployeeId()) {
+                loTicket.setEmployeeId(updateTicket.getEmployeeId());
+            }
+            if (null != updateTicket.getEmployeeName()) {
+                loTicket.setEmployeeName(updateTicket.getEmployeeName());
+            }
+            if (null != updateTicket.getTicketStatus()) {
+                loTicket.setTicketStatus(updateTicket.getTicketStatus());
+            }
+            if (null != updateTicket.getTicketSeverity()) {
+                loTicket.setSeverity(updateTicket.getTicketSeverity());
+            }
+            if (null != updateTicket.getMessageToUser()) {
+                loTicket.setMessageToUser(updateTicket.getMessageToUser());
+            }
             ticketRepo.save(loTicket);
             return new CommonResponse(Status.UPDATED, "Details updated");
-        }
-        else {
+        } else {
             return new CommonResponse(Status.NOTFOUND, "Details cannot be updated");
         }
     }
 
     public List<Ticket> getListOfTicketsNotClosed() {
-        List<Ticket> openTickets = ticketRepo.findTicketsByTicketStatusIsNot(TicketStatus.CLOSED);
-        return openTickets;
+        return ticketRepo.findTicketsByTicketStatusIsNot(TicketStatus.CLOSED);
     }
 
-//    public List<Ticket> getTicketByUserName (String username) {
-//        List<Ticket> openUserTicket = (List<Ticket>) ticketRepo.findTicketByUserName(username);
-//        return openUserTicket;
-//    }
-
-//    public List<Ticket> fetchAllOpenIpos(){
-//        List<Ticket> allIpoList = ticketRepo.findAll();
-//        List<Ticket> openIpoList = new ArrayList<>();
-//        for (Ticket ipo : allIpoList) {
-//            openIpoList.add(ipo);
-//            System.out.println("trial "+openIpoList);
-//        }
-//        return openIpoList;
-//    }
-
-//    public TicketResponse getTicketByUserName(GetUserName username) {
-//        List<Ticket> tckt =ticketRepo.findAll();
-//        if (null != tckt) {
-//            return new TicketResponse(tckt.getTicketId(), tckt.getUserName(), tckt.getIssue(), tckt.getDescription(), tckt.getEmployeeName(),tckt.getTicketStatus(), tckt.getMessageToUser());
-//        }
-//        else
-//        {
-//            return null;
-//        }
-//        List<Ticket> fetchTicket = ticketRepo.findTicketByUserName(userName);
-//        return loTicket;
-//    }
-
-
-//    public List<Ticket> getTicketByUserName(String userName) {
-//        List<Ticket> fetchTicket = ticketRepo.findAll();
-//        System.out.println("Ticket "+fetchTicket.toString() );
-//        List<TicketResponse> listOfTickets = new ArrayList<>();
-//        for (Ticket tckt : fetchTicket) {
-//            if (tckt.getUserName() == userName) {
-//                TicketResponse tr = new TicketResponse(tckt.getTicketId(), tckt.getUserName(), tckt.getIssue(), tckt.getDescription(), tckt.getEmployeeName(), tckt.getTicketStatus(), tckt.getMessageToUser());
-//                listOfTickets.add(tr);
-//            }
-//        }
-//        return fetchTicket;
-//
-//    }
-
+    public List<Ticket> ticketsOpenedByUser(String username) {
+        return ticketRepo.findTicketByUserName(username);
+    }
 
 }
 
