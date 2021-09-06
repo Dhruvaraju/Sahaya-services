@@ -9,9 +9,7 @@ import com.sahaya.sahayaservices.enums.Status;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class TicketService {
@@ -61,6 +59,10 @@ public class TicketService {
 
     public List<Ticket> ticketsOpenedByUser(String username) {
         return ticketRepo.findTicketByUserName(username);
+    }
+
+    public List<Ticket> employeeTicketNotClosed(Long employeeId) {
+        return ticketRepo.findTicketByEmployeeIdAndTicketStatusIsNot(employeeId, TicketStatus.CLOSED);
     }
 
 }

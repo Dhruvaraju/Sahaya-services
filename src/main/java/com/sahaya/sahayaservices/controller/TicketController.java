@@ -37,4 +37,10 @@ public class TicketController {
         return ticketService.ticketsOpenedByUser(userName);
    }
 
+    @RequestMapping(value = "/emp/{empId}",method = RequestMethod.GET)
+    public List<Ticket> getListOfEmployeeTickets(@PathVariable Long empId){
+        return ticketService.employeeTicketNotClosed(empId);
+    }
+
+
 }

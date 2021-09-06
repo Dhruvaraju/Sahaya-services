@@ -20,7 +20,7 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public Employee registerEmployee(@RequestBody Employee employee) throws Exception{
+    public CommonResponse registerEmployee(@RequestBody Employee employee) throws Exception{
         return employeeService.addEmployee(employee);
 
     }
