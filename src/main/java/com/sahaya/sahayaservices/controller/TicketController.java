@@ -29,16 +29,16 @@ public class TicketController {
 
     @RequestMapping(value = "/active", method = RequestMethod.GET)
     public List<Ticket> fetchOpenTickets() {
-        return ticketService.getListOfTicketsNotClosed();
+        return ticketService.fetchListOfTicketsNotClosed();
     }
 
    @RequestMapping(value = "/user/{userName}",method = RequestMethod.GET)
-    public List<Ticket> getListOfUserTicket(@PathVariable String userName){
+    public List<Ticket> fetchListOfUserTicket(@PathVariable String userName){
         return ticketService.ticketsOpenedByUser(userName);
    }
 
     @RequestMapping(value = "/emp/{empId}",method = RequestMethod.GET)
-    public List<Ticket> getListOfEmployeeTickets(@PathVariable Long empId){
+    public List<Ticket> fetchListOfEmployeeTickets(@PathVariable Long empId){
         return ticketService.employeeTicketNotClosed(empId);
     }
 

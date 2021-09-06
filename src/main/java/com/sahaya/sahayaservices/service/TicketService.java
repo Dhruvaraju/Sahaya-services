@@ -53,7 +53,7 @@ public class TicketService {
         }
     }
 
-    public List<Ticket> getListOfTicketsNotClosed() {
+    public List<Ticket> fetchListOfTicketsNotClosed() {
         return ticketRepo.findTicketsByTicketStatusIsNot(TicketStatus.CLOSED);
     }
 
