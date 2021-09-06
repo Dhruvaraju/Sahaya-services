@@ -21,14 +21,17 @@ public class EmployeeService {
         this.employeeRepo = employeeRepo;
     }
 
-    public Employee addEmployee(Employee user) throws Exception {
+    public CommonResponse addEmployee(Employee user) throws Exception {
         Employee loEmployee = employeeRepo.findEmployeeByContactNoAndEmail(user.getContactNo(), user.getEmail());
         if (null == loEmployee) {
-            return employeeRepo.save(user);
+            Employee emp = employeeRepo.save(user);
+            emp.setEmployeeId(500000 + emp.getId());
+            employeeRepo.save(emp);
+            return new CommonResponse(Status.ADDED, "Generated Employee Id: "+emp.getEmployeeId().toString());
         }
         else
         {
-            throw new Exception("user exists");
+            return new CommonResponse(Status.EXISTS, "User already present");
         }
 
     }

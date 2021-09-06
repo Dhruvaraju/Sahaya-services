@@ -20,7 +20,7 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public Employee registerEmployee(@RequestBody Employee employee) throws Exception{
+    public CommonResponse registerEmployee(@RequestBody Employee employee) throws Exception{
         return employeeService.addEmployee(employee);
 
     }
@@ -29,19 +29,19 @@ public class EmployeeController {
         return employeeService.authenticateUser(authRequest);
     }
 
-    @RequestMapping(value = "/getEmpId", method = RequestMethod.POST)
+    @RequestMapping(value = "/empId", method = RequestMethod.POST)
     public CommonResponse forgetEmployeeId(@RequestBody Employee userEmail) throws Exception {
         return employeeService.fetchEmployeeId((userEmail));
     }
 
-    @RequestMapping(value = "/getSecretQ&A", method = RequestMethod.POST)
+    @RequestMapping(value = "/creds", method = RequestMethod.POST)
     public EmployeeAdditionalDetails forgetPassword(@RequestBody Employee userEmpId) throws Exception {
         return employeeService.fetchSecretQnA((userEmpId));
     }
 
     @RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
-    public CommonResponse resetPassword(@RequestBody AuthenticationRequest userPassword) throws Exception {
-        return employeeService.updatePassword((userPassword));
+    public CommonResponse resetPassword(@RequestBody AuthenticationRequest authRequest) throws Exception {
+        return employeeService.updatePassword((authRequest));
     }
 
 }
