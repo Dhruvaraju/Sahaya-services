@@ -17,33 +17,30 @@ public class TicketController {
         this.ticketService = ticketService;
     }
 
-    @RequestMapping(value = "/registerTicket", method = RequestMethod.POST)
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
     public CommonResponse ticketCreation( @RequestBody PrimeRequest request){
         return ticketService.addTicket(request);
     }
 
-    @RequestMapping(value = "/updateTicketRequest", method = RequestMethod.POST)
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
     public  CommonResponse updateTicket(@RequestBody TicketRequest ticket) {
-        return ticketService.updateTicketRequest(ticket);
+        return ticketService.updateTicket(ticket);
     }
 
-    @RequestMapping(value = "/fetchOpenTickets", method = RequestMethod.GET)
+    @RequestMapping(value = "/active", method = RequestMethod.GET)
     public List<Ticket> fetchOpenTickets() {
-        return ticketService.getListOfTicketsNotClosed();
+        return ticketService.fetchListOfTicketsNotClosed();
     }
 
-//    @RequestMapping(value = "/{userName}",method = RequestMethod.GET)
-//    public List<Ticket> getListOfUserTicket(@PathVariable String userName){
-//        return (List<Ticket>) ticketService.getTicketByUserName(userName);
-//    }
-//
-//    @RequestMapping(value = "/open",method = RequestMethod.GET)
-//    public List<Ticket> fetchTicket(){
-//        return ticketService.fetchAllOpenIpos();
-//    }
-//    @RequestMapping(value = "/getListOfUserTicket", method = RequestMethod.POST)
-//    public TicketResponse getListOfUserTicket(@RequestBody GetUserName username) {
-//        return ticketService.getTicketByUserName(username);
-//    }
+   @RequestMapping(value = "/user/{userName}",method = RequestMethod.GET)
+    public List<Ticket> fetchListOfUserTicket(@PathVariable String userName){
+        return ticketService.ticketsOpenedByUser(userName);
+   }
+
+    @RequestMapping(value = "/emp/{empId}",method = RequestMethod.GET)
+    public List<Ticket> fetchListOfEmployeeTickets(@PathVariable Long empId){
+        return ticketService.employeeTicketNotClosed(empId);
+    }
+
 
 }
