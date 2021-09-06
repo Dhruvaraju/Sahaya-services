@@ -42,8 +42,8 @@ public class TicketController {
 //        return ticketService.fetchAllOpenIpos();
 //    }
 //    @RequestMapping(value = "/getListOfUserTicket", method = RequestMethod.POST)
-//    public TicketResponse getListOfUserTicket(@RequestBody GetUserName username) {
-//        return ticketService.getTicketByUserName(username);
+//    public List<TicketResponse> getListOfUserTicket(@RequestBody GetUserName userName) {
+//        return ticketService.getTicketByUserName(userName);
 //    }
 
 }

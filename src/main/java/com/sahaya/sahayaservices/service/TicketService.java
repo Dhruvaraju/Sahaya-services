@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+import java.util.Objects;
 
 @Service
 public class TicketService {
@@ -91,17 +91,27 @@ public class TicketService {
 //    }
 
 
-//    public List<Ticket> getTicketByUserName(String userName) {
-//        List<Ticket> fetchTicket = ticketRepo.findAll();
-//        System.out.println("Ticket "+fetchTicket.toString() );
-//        List<TicketResponse> listOfTickets = new ArrayList<>();
-//        for (Ticket tckt : fetchTicket) {
-//            if (tckt.getUserName() == userName) {
-//                TicketResponse tr = new TicketResponse(tckt.getTicketId(), tckt.getUserName(), tckt.getIssue(), tckt.getDescription(), tckt.getEmployeeName(), tckt.getTicketStatus(), tckt.getMessageToUser());
+//    public List<TicketResponse> getTicketByUserName(GetUserName userName) {
+//        List<Ticket> fetchTicket = ticketRepo.findTicketByUserName(userName.getUserName());
+////        System.out.println("Ticket "+fetchTicket.toString() );
+//        List<TicketResponse> listOfTickets = new ArrayList<TicketResponse>();
+//        for (Ticket ticket : fetchTicket)
+//        {
+////            String username1=ticket.getUserName();
+////            System.out.println(username1);
+////            System.out.println((username1));
+////            System.out.println(ticket.getUserName().equalsIgnoreCase(userName.getUserName()));
+//            if (null != ticket  && ticket.getUserName().equals(userName.getUserName()) ) {
+//
+//                TicketResponse tr = new TicketResponse(ticket.getTicketId(), ticket.getUserName(), ticket.getIssue(), ticket.getDescription(), ticket.getEmployeeName(), ticket.getTicketStatus(), ticket.getMessageToUser());
 //                listOfTickets.add(tr);
 //            }
+////            System.out.println(ticket.getUserName());
+//
+//
+//
 //        }
-//        return fetchTicket;
+//        return listOfTickets;
 //
 //    }
 
