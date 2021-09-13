@@ -1,6 +1,7 @@
 package com.sahaya.sahayaservices.service;
 
 import com.sahaya.sahayaservices.entity.Employee;
+import com.sahaya.sahayaservices.enums.EmployeeType;
 import com.sahaya.sahayaservices.enums.Status;
 import com.sahaya.sahayaservices.models.AuthenticationRequest;
 import com.sahaya.sahayaservices.models.AuthenticationResponse;
@@ -26,6 +27,10 @@ public class EmployeeService {
         if (null == loEmployee) {
             Employee emp = employeeRepo.save(user);
             emp.setEmployeeId(500000 + emp.getId());
+            if(null == emp.getEmployeeType())
+            {
+            emp.setEmployeeType(EmployeeType.USER);
+            }
             employeeRepo.save(emp);
             return new CommonResponse(Status.ADDED, "Generated Employee Id: "+emp.getEmployeeId().toString());
         }
