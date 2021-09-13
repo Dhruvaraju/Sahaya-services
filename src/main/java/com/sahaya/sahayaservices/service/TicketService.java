@@ -20,7 +20,7 @@ public class TicketService {
     }
 
     public CommonResponse addTicket(PrimeRequest primeRequest) {
-        Ticket loTicket = new Ticket(null, primeRequest.getUserName(), null, null, LocalDate.now(), primeRequest.getIssue(), primeRequest.getDescription(), TicketSeverity.LOW, TicketStatus.NEW, null, null);
+        Ticket loTicket = new Ticket(null, primeRequest.getUserName(), null, null, LocalDate.now(), primeRequest.getIssue(), primeRequest.getDescription(), TicketSeverity.LOW, TicketStatus.NEW, null, null,null);
         Ticket updatedTicket = ticketRepo.save(loTicket);
         updatedTicket.setTicketId(100000 + loTicket.getId());
         ticketRepo.save(updatedTicket);
@@ -65,6 +65,16 @@ public class TicketService {
         return ticketRepo.findTicketByEmployeeIdAndTicketStatusIsNot(employeeId, TicketStatus.CLOSED);
     }
 
+    public CommonResponse feedback(FeedbackRequest feedbackRequest) {
+        Ticket loTicket = ticketRepo.findTicketByTicketId(feedbackRequest.getTicketId());
+        if (null != loTicket) {
+            loTicket.setFeedback(feedbackRequest.getFeedback());
+            ticketRepo.save(loTicket);
+            return new CommonResponse(Status.ADDED, "Details added");
+        } else {
+            return new CommonResponse(Status.NOTFOUND, "Invalid TicketId");
+        }
+    }
 }
 
 

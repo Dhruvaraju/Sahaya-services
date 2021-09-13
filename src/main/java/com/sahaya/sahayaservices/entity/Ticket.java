@@ -45,10 +45,14 @@ public class Ticket {
     @Column(name = "TICKETID")
     private Long ticketId;
 
+    @Column(name = "FEEDBACK")
+    private String feedback;
+
+
     public Ticket() {
     }
 
-    public Ticket(Long id, String userName, Long employeeId, String employeeName, LocalDate registeredDate, String issue, String description, TicketSeverity severity, TicketStatus ticketStatus, String messageToUser, Long ticketId) {
+    public Ticket(Long id, String userName, Long employeeId, String employeeName, LocalDate registeredDate, String issue, String description, TicketSeverity severity, TicketStatus ticketStatus, String messageToUser, Long ticketId ,String feedback) {
         this.id = id;
         this.userName = userName;
         this.employeeId = employeeId;
@@ -60,6 +64,8 @@ public class Ticket {
         this.ticketStatus = ticketStatus;
         this.messageToUser = messageToUser;
         this.ticketId = ticketId;
+        this.feedback=feedback;
+
     }
 
     public Long getId() {
@@ -148,5 +154,13 @@ public class Ticket {
 
     public void setTicketId(Long ticketId) {
         this.ticketId = ticketId;
+    }
+
+    public String getFeedback() {
+        return feedback;
+    }
+
+    public void setFeedback(String feedback) {
+        this.feedback = feedback;
     }
 }
