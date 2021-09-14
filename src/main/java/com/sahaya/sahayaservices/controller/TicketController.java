@@ -43,5 +43,9 @@ public class TicketController {
         return ticketService.employeeTicketNotClosed(empId);
     }
 
+    @RequestMapping(value = "/user/message",method = RequestMethod.POST)
+    public  CommonResponse ticketFeedback(@RequestBody FeedbackRequest feedbackRequest) {
+        return ticketService.feedback(feedbackRequest);
+    }
 
 }

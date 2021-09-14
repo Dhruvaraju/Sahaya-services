@@ -1,6 +1,7 @@
 package com.sahaya.sahayaservices.service;
 
 import com.sahaya.sahayaservices.entity.Employee;
+import com.sahaya.sahayaservices.enums.EmployeeType;
 import com.sahaya.sahayaservices.entity.Ticket;
 import com.sahaya.sahayaservices.enums.Status;
 import com.sahaya.sahayaservices.enums.TicketSeverity;
@@ -31,9 +32,15 @@ public class EmployeeService {
             Employee emp = employeeRepo.save(user);
             emp.setEmployeeId(500000 + emp.getId());
             emp.setWorkPoint(0L);
+            if(null == emp.getEmployeeType())
+            {
+            emp.setEmployeeType(EmployeeType.USER);
+            }
             employeeRepo.save(emp);
-            return new CommonResponse(Status.ADDED, "Generated Employee Id: " + emp.getEmployeeId().toString());
-        } else {
+            return new CommonResponse(Status.ADDED, "Generated Employee Id: "+emp.getEmployeeId().toString());
+        }
+        else
+        {
             return new CommonResponse(Status.EXISTS, "User already present");
         }
 
@@ -48,13 +55,13 @@ public class EmployeeService {
         }
     }
 
-    public CommonResponse fetchEmployeeId(Employee user) throws Exception {
-        Employee loEmployee = employeeRepo.findEmployeeByEmail(user.getEmail());
-        if (null != loEmployee) {
-            return new CommonResponse(Status.FOUND, loEmployee.getEmployeeId().toString());
-        } else {
-            return new CommonResponse(Status.NOTFOUND, "User Unavailable");
-        }
+        public CommonResponse fetchEmployeeId (Employee user) throws Exception {
+            Employee loEmployee = employeeRepo.findEmployeeByEmail(user.getEmail());
+            if (null != loEmployee) {
+                return new CommonResponse(Status.FOUND, loEmployee.getEmployeeId().toString());
+            } else {
+                return new CommonResponse(Status.NOTFOUND, "User Unavailable");
+            }
     }
 
     public EmployeeAdditionalDetails fetchSecretQnA(Employee user) {
@@ -67,14 +74,16 @@ public class EmployeeService {
         }
     }
 
-    public CommonResponse updatePassword(AuthenticationRequest authRequest) throws Exception {
+    public CommonResponse updatePassword (AuthenticationRequest authRequest) throws Exception{
         Employee loEmployee = employeeRepo.findEmployeeByEmployeeId((Long.parseLong(authRequest.getUserName())));
         if (null != loEmployee) {
             loEmployee.setPassword(authRequest.getPassword());
             employeeRepo.save(loEmployee);
-            return new CommonResponse(Status.UPDATED, "Password reset successfully");
-        } else {
-            return new CommonResponse(Status.NOTFOUND, "User not found");
+            return new CommonResponse(Status.UPDATED,"Password reset successfully");
+        }
+        else
+        {
+            return new CommonResponse(Status.NOTFOUND,"User not found");
         }
     }
 
