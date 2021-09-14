@@ -43,10 +43,13 @@ public class Employee {
     @Column(name = "SECRETAN2")
     private String secretAn2;
 
+    @Column(name = "WORKPOINT")
+    private Long workPoint  ;
+
     public Employee() {
     }
 
-    public Employee(Long id, String name, String password, Long employeeId, EmployeeType employeeType, Long contactNo, String email, String secretQn1, String secretAn1, String secretQn2, String secretAn2) {
+    public Employee(Long id, String name, String password, Long employeeId, EmployeeType employeeType, Long contactNo, String email, String secretQn1, String secretAn1, String secretQn2, String secretAn2,Long workPoint) {
         this.id = id;
         this.name = name;
         this.password = password;
@@ -58,6 +61,8 @@ public class Employee {
         this.secretAn1 = secretAn1;
         this.secretQn2 = secretQn2;
         this.secretAn2 = secretAn2;
+        this.workPoint = workPoint;
+
     }
 
     public Long getId() {
@@ -146,5 +151,13 @@ public class Employee {
 
     public void setSecretAn2(String secretAn2) {
         this.secretAn2 = secretAn2;
+    }
+
+    public Long getWorkPoint() {
+        return workPoint;
+    }
+
+    public void setWorkPoint(Long workPoint) {
+        this.workPoint = workPoint;
     }
 }
