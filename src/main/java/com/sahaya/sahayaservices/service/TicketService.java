@@ -1,9 +1,11 @@
 package com.sahaya.sahayaservices.service;
 
+import com.sahaya.sahayaservices.entity.Employee;
 import com.sahaya.sahayaservices.entity.Ticket;
 import com.sahaya.sahayaservices.enums.TicketStatus;
 import com.sahaya.sahayaservices.enums.TicketSeverity;
 import com.sahaya.sahayaservices.models.*;
+import com.sahaya.sahayaservices.repository.EmployeeRepository;
 import com.sahaya.sahayaservices.repository.TicketRepository;
 import com.sahaya.sahayaservices.enums.Status;
 import org.springframework.stereotype.Service;
@@ -14,9 +16,11 @@ import java.util.List;
 @Service
 public class TicketService {
     private final TicketRepository ticketRepo;
+    private final EmployeeRepository employeeRepository;
 
-    public TicketService(TicketRepository ticketRepo) {
+    public TicketService(TicketRepository ticketRepo, EmployeeRepository employeeRepository) {
         this.ticketRepo = ticketRepo;
+        this.employeeRepository = employeeRepository;
     }
 
     public CommonResponse addTicket(PrimeRequest primeRequest) {
@@ -46,6 +50,21 @@ public class TicketService {
             if (null != updateTicket.getMessageToUser()) {
                 loTicket.setMessageToUser(updateTicket.getMessageToUser());
             }
+            if (loTicket.getTicketStatus() == TicketStatus.CLOSED){
+                Employee loemployee = employeeRepository.findEmployeeByEmployeeId(loTicket.getEmployeeId());
+                TicketSeverity ticketSeverity = loTicket.getSeverity();
+                if (ticketSeverity == TicketSeverity.LOW) {
+                    loemployee.setWorkPoint(loemployee.getWorkPoint() + 50);
+                } else if (ticketSeverity == TicketSeverity.MEDIUM) {
+                    loemployee.setWorkPoint(loemployee.getWorkPoint() + 70);
+                } else if (ticketSeverity == TicketSeverity.HIGH) {
+                    loemployee.setWorkPoint(loemployee.getWorkPoint() + 80);
+                } else {
+                    loemployee.setWorkPoint(loemployee.getWorkPoint() + 100);
+                }
+                employeeRepository.save(loemployee);
+            }
+
             ticketRepo.save(loTicket);
             return new CommonResponse(Status.UPDATED, "Details updated");
         } else {

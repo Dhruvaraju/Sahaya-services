@@ -45,10 +45,6 @@ public class EmployeeController {
         return employeeService.updatePassword((authRequest));
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public CommonResponse addWorkpoint() throws Exception {
-        return employeeService.updateWorkpoint();
-    }
 
 
 }

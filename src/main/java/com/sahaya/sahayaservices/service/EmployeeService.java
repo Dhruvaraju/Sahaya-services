@@ -19,11 +19,10 @@ import java.util.List;
 @Service
 public class EmployeeService {
     private final EmployeeRepository employeeRepo;
-    private final TicketRepository ticketRepository;
 
-    public EmployeeService(EmployeeRepository employeeRepo, TicketRepository ticketRepository) {
+
+    public EmployeeService(EmployeeRepository employeeRepo) {
         this.employeeRepo = employeeRepo;
-        this.ticketRepository = ticketRepository;
     }
 
     public CommonResponse addEmployee(Employee user) throws Exception {
@@ -90,29 +89,7 @@ public class EmployeeService {
 
 
 
-    public CommonResponse updateWorkpoint() {
-        List<Ticket> closedTickets = ticketRepository.findTicketsByTicketStatus(TicketStatus.CLOSED);
-        if (null != closedTickets) {
-            for (Ticket tckt : closedTickets) {
-                Employee loemployee = employeeRepo.findEmployeeByEmployeeId(tckt.getEmployeeId());
-                TicketSeverity ticketSeverity = tckt.getSeverity();
-                if (ticketSeverity == TicketSeverity.LOW) {
-                    loemployee.setWorkPoint(loemployee.getWorkPoint() + 50);
-                } else if (ticketSeverity == TicketSeverity.MEDIUM) {
-                    loemployee.setWorkPoint(loemployee.getWorkPoint() + 70);
-                } else if (ticketSeverity == TicketSeverity.HIGH) {
-                    loemployee.setWorkPoint(loemployee.getWorkPoint() + 80);
-                } else {
-                    loemployee.setWorkPoint(loemployee.getWorkPoint() + 100);
-                }
-                tckt.setTicketStatus(TicketStatus.COMPLETED);
-                employeeRepo.save(loemployee);
-            }
 
-            return new CommonResponse(Status.UPDATED, "Employee workpoint added");
-        }
-         return new CommonResponse(Status.NOTFOUND, "No closed tickets");
-    }
 
 
     }
