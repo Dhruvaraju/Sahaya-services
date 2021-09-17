@@ -34,7 +34,9 @@ public class TicketService {
 
     public CommonResponse updateTicket(TicketRequest updateTicket) {
         Ticket loTicket = ticketRepo.findTicketByTicketId(updateTicket.getTicketId());
+
         if (null != loTicket) {
+
             if (null != updateTicket.getEmployeeId()) {
                 loTicket.setEmployeeId(updateTicket.getEmployeeId());
             }
@@ -50,8 +52,8 @@ public class TicketService {
             if (null != updateTicket.getMessageToUser()) {
                 loTicket.setMessageToUser(updateTicket.getMessageToUser());
             }
+            Employee loemployee = employeeRepository.findEmployeeByEmployeeId(loTicket.getEmployeeId());
             if (loTicket.getTicketStatus() == TicketStatus.CLOSED){
-                Employee loemployee = employeeRepository.findEmployeeByEmployeeId(loTicket.getEmployeeId());
                 TicketSeverity ticketSeverity = loTicket.getSeverity();
                 if (ticketSeverity == TicketSeverity.LOW) {
                     loemployee.setWorkPoint(loemployee.getWorkPoint() + 50);
@@ -66,7 +68,7 @@ public class TicketService {
             }
 
             ticketRepo.save(loTicket);
-            return new CommonResponse(Status.UPDATED, "Details updated");
+            return new CommonResponse(Status.UPDATED, "Generated workpoint " + loemployee.getWorkPoint().toString());
         } else {
             return new CommonResponse(Status.NOTFOUND, "Details cannot be updated");
         }

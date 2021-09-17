@@ -11,12 +11,13 @@ Employee | **/api/v1/user/register** | registering a new employee | Created
 Employee | **/api/v1/user/authenticate** | Authentication of an employee for login | Created
 Employee | **/api/v1/user/empId** | Returns employee id when supplied with email | Created
 Employee | **/api/v1/user/creds** | Additional authentication questions will be sent back | Created
-Employee | **/api/v1/user/resetPassword** | Updates provided password in request | Created
+Employee | **/api/v1/user/updateDetails** | Updates provided details in request | Created
 Ticket | **/api/v1/ticket/register** | Registering a new ticket | Created
 Ticket | **/api/v1/ticket/update** | Updates existing ticket details | Created
 Ticket | **/api/v1/ticket/active** | Returns all tickets other than closed status | Created
 Ticket | **/api/v1/ticket/user/{userName}** | Tickets that are opened by a specific user | Created
 Ticket | **/api/v1/ticket/emp/{empId}** | Tickets assigned to a user which are not closed | Created
+Ticket | **/api/v1/ticket/user/message** | Added feedback for the ticket | Created
 
 ## Tech Stack
 **Programming Language:** Java-11

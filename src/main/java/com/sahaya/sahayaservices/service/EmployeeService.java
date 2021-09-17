@@ -31,15 +31,12 @@ public class EmployeeService {
             Employee emp = employeeRepo.save(user);
             emp.setEmployeeId(500000 + emp.getId());
             emp.setWorkPoint(0L);
-            if(null == emp.getEmployeeType())
-            {
-            emp.setEmployeeType(EmployeeType.USER);
+            if (null == emp.getEmployeeType()) {
+                emp.setEmployeeType(EmployeeType.USER);
             }
             employeeRepo.save(emp);
-            return new CommonResponse(Status.ADDED, "Generated Employee Id: "+emp.getEmployeeId().toString());
-        }
-        else
-        {
+            return new CommonResponse(Status.ADDED, "Generated Employee Id: " + emp.getEmployeeId().toString());
+        } else {
             return new CommonResponse(Status.EXISTS, "User already present");
         }
 
@@ -48,19 +45,19 @@ public class EmployeeService {
     public AuthenticationResponse authenticateUser(AuthenticationRequest authRequest) {
         Employee loEmployee = employeeRepo.findEmployeeByEmployeeIdAndPassword((Long.parseLong(authRequest.getUserName())), authRequest.getPassword());
         if (null != loEmployee) {
-            return new AuthenticationResponse(loEmployee.getEmployeeId().toString(), loEmployee.getName(), true, loEmployee.getEmployeeType());
+            return new AuthenticationResponse(loEmployee.getEmployeeId().toString(), loEmployee.getName(), true, loEmployee.getEmployeeType(), loEmployee.getWorkPoint());
         } else {
-            return new AuthenticationResponse(null, null, false, null);
+            return new AuthenticationResponse(null, null, false, null, null);
         }
     }
 
-        public CommonResponse fetchEmployeeId (Employee user) throws Exception {
-            Employee loEmployee = employeeRepo.findEmployeeByEmail(user.getEmail());
-            if (null != loEmployee) {
-                return new CommonResponse(Status.FOUND, loEmployee.getEmployeeId().toString());
-            } else {
-                return new CommonResponse(Status.NOTFOUND, "User Unavailable");
-            }
+    public CommonResponse fetchEmployeeId(Employee user) throws Exception {
+        Employee loEmployee = employeeRepo.findEmployeeByEmail(user.getEmail());
+        if (null != loEmployee) {
+            return new CommonResponse(Status.FOUND, loEmployee.getEmployeeId().toString());
+        } else {
+            return new CommonResponse(Status.NOTFOUND, "User Unavailable");
+        }
     }
 
     public EmployeeAdditionalDetails fetchSecretQnA(Employee user) {
@@ -73,18 +70,39 @@ public class EmployeeService {
         }
     }
 
-    public CommonResponse updatePassword (AuthenticationRequest authRequest) throws Exception{
-        Employee loEmployee = employeeRepo.findEmployeeByEmployeeId((Long.parseLong(authRequest.getUserName())));
-        if (null != loEmployee) {
-            loEmployee.setPassword(authRequest.getPassword());
-            employeeRepo.save(loEmployee);
-            return new CommonResponse(Status.UPDATED,"Password reset successfully");
-        }
-        else
-        {
-            return new CommonResponse(Status.NOTFOUND,"User not found");
+
+
+    public CommonResponse updateEmployeeDetails(Employee employee) throws Exception {
+        Employee loemployee = employeeRepo.findEmployeeByEmployeeId(employee.getEmployeeId());
+        if (null != loemployee) {
+            if (null != employee.getPassword()) {
+                loemployee.setPassword(employee.getPassword());
+            }
+            if (null != employee.getName()) {
+                loemployee.setName(employee.getName());
+            }
+            if (null != employee.getContactNo()) {
+                loemployee.setContactNo(employee.getContactNo());
+            }
+            if (null != employee.getSecretQn1()) {
+                loemployee.setSecretQn1(employee.getSecretQn1());
+            }
+            if (null != employee.getSecretAn1()) {
+                loemployee.setSecretAn1(employee.getSecretAn1());
+            }
+            if (null != employee.getSecretQn2()) {
+                loemployee.setSecretQn2(employee.getSecretQn2());
+            }
+            if (null != employee.getSecretAn2()) {
+                loemployee.setSecretAn2(employee.getSecretAn2());
+            }
+            employeeRepo.save(loemployee);
+            return new CommonResponse(Status.UPDATED, " Details reset successfully");
+        } else {
+            return new CommonResponse(Status.NOTFOUND, "User not found");
         }
     }
+}
 
 
 
@@ -92,5 +110,4 @@ public class EmployeeService {
 
 
 
-    }
 
