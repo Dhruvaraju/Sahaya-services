@@ -16,15 +16,15 @@ import java.util.List;
 @Service
 public class TicketService {
     private final TicketRepository ticketRepo;
-    private final EmployeeRepository employeeRepository;
+    private final EmployeeService empService;
 
-    public TicketService(TicketRepository ticketRepo, EmployeeRepository employeeRepository) {
+    public TicketService(TicketRepository ticketRepo, EmployeeService empService) {
         this.ticketRepo = ticketRepo;
-        this.employeeRepository = employeeRepository;
+        this.empService = empService;
     }
 
     public CommonResponse addTicket(PrimeRequest primeRequest) {
-        Ticket loTicket = new Ticket(null, primeRequest.getUserName(), null, null, LocalDate.now(), primeRequest.getIssue(), primeRequest.getDescription(), TicketSeverity.LOW, TicketStatus.NEW, null, null,null);
+        Ticket loTicket = new Ticket(null, primeRequest.getUserName(), null, null, LocalDate.now(), primeRequest.getIssue(), primeRequest.getDescription(), TicketSeverity.LOW, TicketStatus.NEW, null, null, null);
         Ticket updatedTicket = ticketRepo.save(loTicket);
         updatedTicket.setTicketId(100000 + loTicket.getId());
         ticketRepo.save(updatedTicket);
@@ -34,9 +34,24 @@ public class TicketService {
 
     public CommonResponse updateTicket(TicketRequest updateTicket) {
         Ticket loTicket = ticketRepo.findTicketByTicketId(updateTicket.getTicketId());
-
         if (null != loTicket) {
+            if (updateTicket.getTicketStatus() == TicketStatus.CLOSED
+                    && null != loTicket.getSeverity()
+                    && (null != loTicket.getEmployeeId() || null != updateTicket.getEmployeeId())) {
+                String result;
+                if (null != loTicket.getEmployeeId()) {
+                    result = empService.updateWorkPoints(loTicket.getSeverity(), loTicket.getEmployeeId());
+                } else {
+                    result = empService.updateWorkPoints(loTicket.getSeverity(), updateTicket.getEmployeeId());
+                }
+                if (result == "FAILED") {
+                    return new CommonResponse(Status.NOTFOUND, "Ticket not updated as emp is not found.");
+                }
 
+            } else if (updateTicket.getTicketStatus() == TicketStatus.CLOSED
+                    && (null == loTicket.getSeverity() || null == loTicket.getEmployeeId())) {
+                return new CommonResponse(Status.FAILED, "Ticket should be assigned to an employee before closing.");
+            }
             if (null != updateTicket.getEmployeeId()) {
                 loTicket.setEmployeeId(updateTicket.getEmployeeId());
             }
@@ -52,23 +67,9 @@ public class TicketService {
             if (null != updateTicket.getMessageToUser()) {
                 loTicket.setMessageToUser(updateTicket.getMessageToUser());
             }
-            Employee loemployee = employeeRepository.findEmployeeByEmployeeId(loTicket.getEmployeeId());
-            if (loTicket.getTicketStatus() == TicketStatus.CLOSED){
-                TicketSeverity ticketSeverity = loTicket.getSeverity();
-                if (ticketSeverity == TicketSeverity.LOW) {
-                    loemployee.setWorkPoint(loemployee.getWorkPoint() + 50);
-                } else if (ticketSeverity == TicketSeverity.MEDIUM) {
-                    loemployee.setWorkPoint(loemployee.getWorkPoint() + 70);
-                } else if (ticketSeverity == TicketSeverity.HIGH) {
-                    loemployee.setWorkPoint(loemployee.getWorkPoint() + 80);
-                } else {
-                    loemployee.setWorkPoint(loemployee.getWorkPoint() + 100);
-                }
-                employeeRepository.save(loemployee);
-            }
 
             ticketRepo.save(loTicket);
-            return new CommonResponse(Status.UPDATED, "Generated workpoint " + loemployee.getWorkPoint().toString());
+            return new CommonResponse(Status.UPDATED, "Updated Ticket");
         } else {
             return new CommonResponse(Status.NOTFOUND, "Details cannot be updated");
         }

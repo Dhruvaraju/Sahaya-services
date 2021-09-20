@@ -71,7 +71,6 @@ public class EmployeeService {
     }
 
 
-
     public CommonResponse updateEmployeeDetails(Employee employee) throws Exception {
         Employee loemployee = employeeRepo.findEmployeeByEmployeeId(employee.getEmployeeId());
         if (null != loemployee) {
@@ -101,6 +100,28 @@ public class EmployeeService {
         } else {
             return new CommonResponse(Status.NOTFOUND, "User not found");
         }
+    }
+
+    public String updateWorkPoints(TicketSeverity ticketSeverity, Long empId) {
+        Employee loEmployee = employeeRepo.findEmployeeByEmployeeId(empId);
+        if (null != loEmployee) {
+            if (ticketSeverity == TicketSeverity.LOW) {
+                loEmployee.setWorkPoint(loEmployee.getWorkPoint() + 50);
+            } else if (ticketSeverity == TicketSeverity.MEDIUM) {
+                loEmployee.setWorkPoint(loEmployee.getWorkPoint() + 70);
+            } else if (ticketSeverity == TicketSeverity.HIGH) {
+                loEmployee.setWorkPoint(loEmployee.getWorkPoint() + 80);
+            } else {
+                loEmployee.setWorkPoint(loEmployee.getWorkPoint() + 100);
+            }
+            Employee updatedEmployee = employeeRepo.save(loEmployee);
+            if (null != updatedEmployee) {
+                return updatedEmployee.getWorkPoint().toString();
+            } else {
+                return "FAILED";
+            }
+        }
+        return "FAILED";
     }
 }
 
