@@ -33,6 +33,11 @@ public class TicketController {
         return ticketService.fetchListOfTicketsNotClosed();
     }
 
+    @RequestMapping(value = "/closed", method = RequestMethod.GET)
+    public List<Ticket> fetchClosedTickets() {
+        return ticketService.fetchListOfClosedTickets();
+    }
+
    @RequestMapping(value = "/user/{userName}",method = RequestMethod.GET)
     public List<Ticket> fetchListOfUserTicket(@PathVariable String userName){
         return ticketService.ticketsOpenedByUser(userName);

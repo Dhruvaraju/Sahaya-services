@@ -79,6 +79,10 @@ public class TicketService {
         return ticketRepo.findTicketsByTicketStatusIsNot(TicketStatus.CLOSED);
     }
 
+    public List<Ticket> fetchListOfClosedTickets() {
+        return ticketRepo.findTicketsByTicketStatusIs(TicketStatus.CLOSED);
+    }
+
     public List<Ticket> ticketsOpenedByUser(String username) {
         return ticketRepo.findTicketByUserName(username);
     }
